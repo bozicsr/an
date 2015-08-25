@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
         - hosts: all
           user: admin
           tasks:
@@ -8,6 +9,11 @@
           lineinfile: destfile=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
                           notify:
                                   - restart ssh
+=======
+  - hosts: all
+    user: admin
+    tasks:
+>>>>>>> origin/master
 
 
 - name: upgrade all packages
