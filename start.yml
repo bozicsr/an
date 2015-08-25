@@ -1,10 +1,10 @@
 ---
-        - hosts: all
-          user: admin
-          tasks:
+  - hosts: all
+    user: admin
+    tasks:
 
-- name: upgrade all packages
-  yum: name=* state=latest
+  - name: upgrade all packages
+    yum: name=* state=latest
 
   #- name: create a new user
   #  user: name={{ bozicsr }}
