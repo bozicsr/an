@@ -1,8 +1,13 @@
 ---
-- hosts: all
-  user: bozicsr
-  tasks:
+  - hosts: all
+     user: admin
+    tasks:
 
+  - name: create a new user
+    user: name={{ bozicsr }}
+          state=present
+          shell=/bin/bash
+  
   - name: put ssh-key in
     authorized_key: user=bozicsr key="{{lookup('file', '~/.ssh/id_rsa.pub') }}" manage_dir=yes
 
