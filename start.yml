@@ -1,6 +1,6 @@
 ---
   - hosts: all
-     user: admin
+    user: admin
     tasks:
 
   - name: create a new user
