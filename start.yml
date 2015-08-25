@@ -42,3 +42,13 @@
        - mcelog 
        - htop
 
+ - name: common | configure timezone
+   copy: content={{ timezone }} dest=/etc/timezone owner=root group=root mode=600 backup=yes
+   notify: update timezone
+   tags: common
+ - name: common | configure localtime
+   file: src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime owner=root group=root mode=600 state=link force=yes backup=yes
+   tags: common
+   handlers:
+ - name: update timezone
+   command: dpkg-reconfigure --frontend noninteractive tzdata
