@@ -1,12 +1,22 @@
 ---
-  - hosts: all
-     user: admin
-    tasks:
+        - hosts: all
+          user: admin
+          tasks:
+        
+        - name: SSH root login
+          sudo: yes
+          lineinfile: destfile=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+                          notify:
+                                  - restart ssh
 
-  - name: create a new user
-    user: name={{ bozicsr }}
-          state=present
-          shell=/bin/bash
+
+- name: upgrade all packages
+  yum: name=* state=latest
+
+  #- name: create a new user
+  #  user: name={{ bozicsr }}
+  #        state=present
+  #        shell=/bin/bash
   
   - name: put ssh-key in
     authorized_key: user=bozicsr key="{{lookup('file', '~/.ssh/id_rsa.pub') }}" manage_dir=yes
@@ -37,7 +47,5 @@
        - kexec-tools 
        - mc 
        - mcelog 
-
-  - name: activate autoupdate
-    service: enabled=yes state=started name=yum-cron
+       - htop
 
