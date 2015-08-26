@@ -10,7 +10,6 @@
   #  user: name={{ bozicsr }}
   #        state=present
   #        shell=/bin/bash
-  # TEST  
   - name: put ssh-key in
     authorized_key: user=bozicsr key="{{lookup('file', '~/.ssh/id_rsa.pub') }}" manage_dir=yes
 
