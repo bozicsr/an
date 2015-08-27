@@ -1,53 +1,37 @@
----
-  - hosts: all
-    user: admin
-    tasks:
-
-  - name: upgrade all packages
-    yum: name=* state=latest
-
-  #- name: create a new user
-  #  user: name={{ bozicsr }}
-  #        state=present
-  #        shell=/bin/bash
-  - name: put ssh-key in
-    authorized_key: user=bozicsr key="{{lookup('file', '~/.ssh/id_rsa.pub') }}" manage_dir=yes
-
-  - name: install packages
-    yum: pkg={{ item }} state=installed
-    when: ansible_os_family == 'RedHat' and ansible_lsb.major_release|int == 6
-    with_items:
+- hosts: alt
+  sudo: True
+  user: bozicsr      
+  tasks: 
+   - name: Instalacija paketa
+     yum: pkg={{item}} state=installed   
+     with_items:
        - screen
-       - iotop 
-       - iptraf 
-       - acpid 
-       - man 
-       - bind-utils 
-       - vim-enhanced 
-       - nc 
-       - zip 
-       - unzip 
-       - wget 
-       - links 
-       - screen 
-       - lsof 
-       - bash-completion 
-       - dos2unix 
-       - links 
-       - hdparm 
-       - smartmontools 
-       - kexec-tools 
-       - mc 
-       - mcelog 
+       - iotop
+       - iptraf
+       - acpid
+       - man
+       - bind-utils
+       - vim-enhanced
+       - nc
+       - zip
+       - unzip
+       - wget
+       - links
+       - lsof
+       - bash-completion
+       - dos2unix
+       - links
+       - hdparm
+       - smartmontools
+       - kexec-tools
+       - mc
+       - mcelog
        - htop
+       - net-tools
+       - system-storage-manager
+       - traceroute
+       - ntp
+       - net-snmp
+       - bind-utils
+       - iptraf
 
- - name: common | configure timezone
-   copy: content={{ timezone }} dest=/etc/timezone owner=root group=root mode=600 backup=yes
-   notify: update timezone
-   tags: common
- - name: common | configure localtime
-   file: src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime owner=root group=root mode=600 state=link force=yes backup=yes
-   tags: common
-   handlers:
- - name: update timezone
-   command: dpkg-reconfigure --frontend noninteractive tzdata
